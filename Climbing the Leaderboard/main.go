@@ -30,9 +30,10 @@ func climbingLeaderboard(ranked []int32, player []int32) []int32 {
 
 	fmt.Println(ranked)
 
-	var currentRank, scores int32 = int32(len(ranked)), 0
-
+	var currentRank int32 = int32(len(ranked))
+	scores := int32(0)
 	rankedSize := int32(len(ranked))
+
 	//Iter player scores
 	for i, val := range player {
 
