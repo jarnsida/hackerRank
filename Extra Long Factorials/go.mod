@@ -1,3 +1,3 @@
-module "gitgub.com/jarnsida/hackerRank/Extra Long Factorials"
+module "github.com/jarnsida/hackerRank/Extra Long Factorials"
 
 go 1.16
