@@ -1,0 +1,120 @@
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "io"
+    "os"
+    "strings"
+  "unicode"
+  "strconv"
+)
+
+
+
+/*
+ * Complete the 'decryptPassword' function below.
+ *
+ * The function is expected to return a STRING.
+ * The function accepts STRING s as parameter.
+ */
+
+func decryptPassword(s string) string {
+    // Write your code here
+    var answer string
+    tempStr := make ([]string,len(s))
+    digCount :=0
+    lenCut :=0
+ 
+    s = strings.Trim(s, " ")
+    
+    // tempStr2 := make([]string,len(s))
+    
+    // for _, val:=range s {
+    //     tempStr2 = append(tempStr2, string(val))
+    // }
+    
+    
+    for _, val:= range s {
+        value, err := strconv.ParseInt(string(val), 10, 64)
+        if err != nil {break}
+        if value !=0 { 
+            lenCut ++
+        }
+    }
+    
+    for i:= len(s)-1; i>=lenCut; i-- {
+        
+         //fmt.Println(s)
+        
+        if unicode.IsLetter(rune (s[i])) && i == len(s)-1  {
+            tempStr = append(tempStr, string(s[i]))
+        
+        } else if  unicode.IsDigit(rune(s[i])) {
+            tempStr = append(tempStr, string(s[digCount]))
+            digCount ++
+        
+        } else if  unicode.IsGraphic(rune (s[i])) && !unicode.IsSpace(rune (s[i])){
+            fmt.Println("Is graphic")
+            fmt.Println(tempStr)
+            tempStr = append(tempStr, string(s[i-2]),string(s[i-1]))
+            i-=2
+        }  
+    
+    }
+    for i:= len(tempStr)-1; i>=0; i-- {
+        answer += tempStr[i]
+    }
+    
+    
+  //  fmt.Println(tempStr2[0]," & ", tempStr2)
+    return answer 
+}
+
+func main() {
+    reader := bufio.NewReaderSize(os.Stdin, 16 * 1024 * 1024)
+
+    stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
+    checkError(err)
+
+    defer stdout.Close()
+
+    writer := bufio.NewWriterSize(stdout, 16 * 1024 * 1024)
+
+    s := readLine(reader)
+
+    result := decryptPassword(s)
+
+    fmt.Fprintf(writer, "%s\n", result)
+
+    writer.Flush()
+}
+
+func readLine(reader *bufio.Reader) string {
+    str, _, err := reader.ReadLine()
+    if err == io.EOF {
+        return ""
+    }
+
+    return strings.TrimRight(string(str), "\r\n")
+}
+
+func checkError(err error) {
+    if err != nil {
+        panic(err)
+    }
+}
+
+
+Input (stdin)
+
+Run as Custom Input
+|
+Download
+51Pa*0Lp*0e
+Your Output (stdout)
+aP1pL5e
+Expected Output
+
+Download
+aP1pL5e
